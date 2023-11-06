@@ -28,7 +28,7 @@ function Endpoint() {
     };
 
     const deleteEndpoint = (url) => {
-        axios.delete(`${RESTFUL_URL}/endpoint/${url}`)
+        axios.delete(`${RESTFUL_URL}/endpoint`, {data: {url: url}})
             .then(() => {
                 fetchEndpoints();
             })

@@ -60,10 +60,10 @@ public class RestfulController {
         logger.info("Endpoint saved: {}", endpointDTO.getUrl());
     }
 
-    @DeleteMapping("/endpoint/{url}")
-    public void deleteEndpoint(@PathVariable String url) {
-        logger.info("Deleting endpoint: {}", url);
-        restService.deleteEndpoint(new Endpoint(url));
-        logger.info("Endpoint deleted: {}", url);
+    @DeleteMapping("/endpoint")
+    public void deleteEndpoint(@RequestBody EndpointDTO endpointDTO) {
+        logger.info("Deleting endpoint: {}", endpointDTO.getUrl());
+        restService.deleteEndpoint(new Endpoint(endpointDTO.getUrl()));
+        logger.info("Endpoint deleted: {}", endpointDTO.getUrl());
     }
 }
