@@ -1,4 +1,4 @@
-package feedsubscriber.common.db.endpoint;
+package feedsubscriber.database.endpoint;
 
 import feedsubscriber.common.dto.EndpointDTO;
 import org.springframework.beans.factory.annotation.Autowired;

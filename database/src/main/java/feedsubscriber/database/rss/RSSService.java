@@ -1,4 +1,4 @@
-package feedsubscriber.common.db.rss;
+package feedsubscriber.database.rss;
 
 import feedsubscriber.common.dto.RSSItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;

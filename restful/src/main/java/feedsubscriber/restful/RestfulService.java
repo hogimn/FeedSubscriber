@@ -1,10 +1,10 @@
 package feedsubscriber.restful;
 
-import feedsubscriber.common.db.endpoint.Endpoint;
-import feedsubscriber.common.db.endpoint.EndpointService;
-import feedsubscriber.common.db.rss.RSSService;
 import feedsubscriber.common.dto.EndpointDTO;
 import feedsubscriber.common.dto.RSSItemDTO;
+import feedsubscriber.database.endpoint.Endpoint;
+import feedsubscriber.database.endpoint.EndpointService;
+import feedsubscriber.database.rss.RSSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

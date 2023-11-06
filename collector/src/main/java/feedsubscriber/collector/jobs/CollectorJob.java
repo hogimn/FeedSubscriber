@@ -1,10 +1,10 @@
 package feedsubscriber.collector.jobs;
 
-import feedsubscriber.common.db.endpoint.EndpointService;
-import feedsubscriber.common.db.rss.RSSItem;
-import feedsubscriber.common.db.rss.RSSService;
 import feedsubscriber.common.serialization.RSS;
 import feedsubscriber.common.utils.WebUtils;
+import feedsubscriber.database.endpoint.EndpointService;
+import feedsubscriber.database.rss.RSSItem;
+import feedsubscriber.database.rss.RSSService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;

@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.config.GatewayProperties;
-import org.springframework.context.annotation.Configuration;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Objects;
 
-@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+@SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection"})
 @SpringBootApplication
-@Configuration
 public class GatewayApplication {
     private static final Logger logger =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

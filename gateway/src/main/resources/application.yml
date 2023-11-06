@@ -1,5 +1,6 @@
+#file: noinspection SpellCheckingInspection
 server:
-  port: 8001
+  port: 9001
 
 spring:
   application:
@@ -10,6 +11,14 @@ spring:
         locator:
           enabled: 'true'
           lower-case-service-id: 'true'
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-methods: "*"
+            allowed-headers: "*"
   main:
     web-application-type: reactive
 
@@ -19,4 +28,4 @@ eureka:
     register-with-eureka: false
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://localhost:8000/eureka
+      defaultZone: http://localhost:9000/eureka

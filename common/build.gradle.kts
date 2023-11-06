@@ -1,7 +1,5 @@
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.16.0-rc1")
     implementation("com.fasterxml.jackson.core:jackson-core:2.16.0-rc1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0-rc1")

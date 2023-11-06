@@ -10,9 +10,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 @SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "SpellCheckingInspection"})
-@SpringBootApplication(scanBasePackages = {"feedsubscriber.common", "feedsubscriber.collector"})
+@SpringBootApplication(scanBasePackages = {"feedsubscriber.common", "feedsubscriber.database", "feedsubscriber.collector"})
 @EnableScheduling
-@EnableMongoRepositories(basePackages = {"feedsubscriber.common", "feedsubscriber.collector"})
+@EnableMongoRepositories(basePackages = {"feedsubscriber.database"})
 public class CollectorApplication {
     @Autowired
     private Scheduler scheduler;

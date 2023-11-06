@@ -1,4 +1,4 @@
-package feedsubscriber.common.db.rss;
+package feedsubscriber.database.rss;
 
 import feedsubscriber.common.serialization.Item;
 import lombok.AllArgsConstructor;

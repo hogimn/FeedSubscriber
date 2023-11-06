@@ -1,4 +1,4 @@
-package feedsubscriber.common.db.rss;
+package feedsubscriber.database.rss;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

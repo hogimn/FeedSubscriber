@@ -1,8 +1,8 @@
 package feedsubscriber.restful;
 
-import feedsubscriber.common.db.endpoint.Endpoint;
 import feedsubscriber.common.dto.EndpointDTO;
 import feedsubscriber.common.dto.RSSItemDTO;
+import feedsubscriber.database.endpoint.Endpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

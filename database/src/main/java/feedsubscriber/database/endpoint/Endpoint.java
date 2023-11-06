@@ -1,4 +1,4 @@
-package feedsubscriber.common.db.endpoint;
+package feedsubscriber.database.endpoint;
 
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
