@@ -22,6 +22,7 @@ subprojects {
         plugin("io.spring.dependency-management")
         plugin("java")
         plugin("org.jetbrains.kotlin.jvm")
+        plugin("checkstyle")
     }
 
     java {
@@ -120,5 +121,10 @@ subprojects {
         named("main") {
             java.srcDir("src/main/java")
         }
+    }
+
+    configure<CheckstyleExtension> {
+        toolVersion = "10.12.4"
+        maxWarnings = 0
     }
 }
