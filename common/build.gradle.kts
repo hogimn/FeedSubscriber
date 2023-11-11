@@ -7,3 +7,7 @@ dependencies {
 }
 
 tasks.register("prepareKotlinBuildScriptModel") {}
+
+tasks.named("bootJar") {
+    enabled = false
+}
