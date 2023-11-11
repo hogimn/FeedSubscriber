@@ -1,37 +1,39 @@
 package feedsubscriber.restful;
 
-import feedsubscriber.common.dto.EndpointDTO;
-import feedsubscriber.common.dto.RSSItemDTO;
+import feedsubscriber.common.dto.EndpointDto;
+import feedsubscriber.common.dto.RssItemDto;
 import feedsubscriber.database.endpoint.Endpoint;
 import feedsubscriber.database.endpoint.EndpointService;
-import feedsubscriber.database.rss.RSSService;
+import feedsubscriber.database.rss.RssService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+/**
+ * Service class for handling RESTful service operations.
+ */
+@SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "SpellCheckingInspection"})
 @Service
 public class RestfulService {
-    @Autowired
-    RSSService rssService;
+  @Autowired
+  RssService rssService;
 
-    @Autowired
-    EndpointService endpointService;
+  @Autowired
+  EndpointService endpointService;
 
-    public List<RSSItemDTO> getRSSItems() {
-        return rssService.findAllAndSortByPubDateDesc();
-    }
+  public List<RssItemDto> getRssItems() {
+    return rssService.findAllAndSortByPubDateDesc();
+  }
 
-    public List<EndpointDTO> getEndpoints() {
-        return endpointService.findAll();
-    }
+  public List<EndpointDto> getEndpoints() {
+    return endpointService.findAll();
+  }
 
-    public void saveEndpoint(Endpoint endpoint) {
-        endpointService.saveEndpoint(endpoint);
-    }
+  public void saveEndpoint(Endpoint endpoint) {
+    endpointService.saveEndpoint(endpoint);
+  }
 
-    public void deleteEndpoint(Endpoint endpoint) {
-        endpointService.delete(endpoint);
-    }
+  public void deleteEndpoint(Endpoint endpoint) {
+    endpointService.delete(endpoint);
+  }
 }
