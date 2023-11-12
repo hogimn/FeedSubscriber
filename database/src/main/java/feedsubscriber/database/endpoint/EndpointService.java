@@ -15,6 +15,18 @@ public class EndpointService {
   private EndpointRepository endpointRepository;
 
   /**
+   * Retrieves the {@link Endpoint} associated with the specified URL.
+   *
+   * @param url The URL of the endpoint to retrieve.
+   * @return An {@link Endpoint} representing the endpoint with the given URL,
+   *         or null if no endpoint is found.
+   */
+  public Endpoint findByUrl(String url) {
+    return endpointRepository
+            .findByUrl(url);
+  }
+
+  /**
    * Retrieves all endpoints and maps them to EndpointDto objects.
    *
    * @return List of EndpointDto objects representing all endpoints.

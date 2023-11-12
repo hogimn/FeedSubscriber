@@ -1,11 +1,16 @@
 package feedsubscriber.database.rss;
 
 import feedsubscriber.common.serialization.Item;
+import feedsubscriber.database.endpoint.Endpoint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
  * Represents an RSS feed item stored in the MongoDB database.
@@ -13,14 +18,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "rss")
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class RssItem {
+  @NonNull
   String title;
+  @NonNull
   String description;
+  @NonNull
   String pubDate;
+  @NonNull
   String link;
+  @NonNull
   String author;
+
+  @DBRef
+  @Field("endpoint")
+  private Endpoint endpoint;
 
   /**
    * Constructs an RssItem using information from an external Item object.

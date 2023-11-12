@@ -52,7 +52,11 @@ public class CollectorJob implements Job {
               .getChannel()
               .getItem()
               .stream()
-              .map(RssItem::new)
+              .map(item -> {
+                RssItem rssItem = new RssItem(item);
+                rssItem.setEndpoint(endpointService.findByUrl(url));
+                return rssItem;
+              })
               .toList();
 
       List<RssItem> notSavedRssItems = new ArrayList<>();
