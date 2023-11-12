@@ -92,4 +92,16 @@ public class RestfulController {
     restService.deleteEndpoint(new Endpoint(endpointDto.getUrl()));
     logger.info("Endpoint deleted: {}", endpointDto.getUrl());
   }
+
+  /**
+   * Deletes all RSS items associated with a specific endpoint.
+   *
+   * @param endpointDto The DTO representing the endpoint.
+   */
+  @DeleteMapping("/rss_items")
+  public void deleteAllRssByEndpoint(@RequestBody EndpointDto endpointDto) {
+    logger.info("Deleting all RSS items for endpoint: {}", endpointDto.getUrl());
+    restService.deleteAllRssByEndpoint(endpointDto.getUrl());
+    logger.info("All RSS items deleted for endpoint: {}", endpointDto.getUrl());
+  }
 }

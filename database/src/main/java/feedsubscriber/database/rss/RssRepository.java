@@ -1,5 +1,6 @@
 package feedsubscriber.database.rss;
 
+import feedsubscriber.database.endpoint.Endpoint;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -7,4 +8,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface RssRepository extends MongoRepository<RssItem, String> {
   RssItem findByLink(String link);
+
+  void deleteAllByEndpoint(Endpoint endpoint);
 }

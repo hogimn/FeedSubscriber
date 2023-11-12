@@ -1,6 +1,7 @@
 package feedsubscriber.database.rss;
 
 import feedsubscriber.common.dto.RssItemDto;
+import feedsubscriber.database.endpoint.Endpoint;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,5 +60,9 @@ public class RssService {
 
   public void saveAll(List<RssItem> rss) {
     rssRepository.saveAll(rss);
+  }
+
+  public void deleteAllByEndpoint(Endpoint endpoint) {
+    rssRepository.deleteAllByEndpoint(endpoint);
   }
 }

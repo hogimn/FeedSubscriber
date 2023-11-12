@@ -27,13 +27,19 @@ function Endpoint() {
             });
     };
 
-    const deleteEndpoint = (url) => {
-        axios.delete(`${RESTFUL_URL}/endpoint`, {data: {url: url}})
+    const deleteEndpointAndRelatedRss = (url) => {
+        axios.delete(`${RESTFUL_URL}/rss_items`, {data: {url: url}})
             .then(() => {
-                fetchEndpoints();
+                axios.delete(`${RESTFUL_URL}/endpoint`, {data: {url: url}})
+                    .then(() => {
+                        fetchEndpoints();
+                    })
+                    .catch(error => {
+                        console.error('Error deleting endpoint:', error);
+                    });
             })
             .catch(error => {
-                console.error('Error deleting endpoint:', error);
+                console.error('Error deleting rss items:', error);
             });
     };
 
@@ -59,7 +65,7 @@ function Endpoint() {
                 {endpoints.map((endpoint, index) => (
                     <li key={index}>
                         <span>{endpoint.url} </span>
-                        <button onClick={() => deleteEndpoint(endpoint.url)}>Delete</button>
+                        <button onClick={() => deleteEndpointAndRelatedRss(endpoint.url)}>Delete</button>
                     </li>
                 ))}
             </ul>
