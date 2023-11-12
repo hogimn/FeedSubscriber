@@ -1,4 +1,4 @@
-// noinspection JSValidateTypes
+// noinspection JSValidateTypes,JSUnresolvedReference
 
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
@@ -75,7 +75,17 @@ function Home() {
                                 <Typography
                                     color="textSecondary"
                                     gutterBottom
-                                    dangerouslySetInnerHTML={{__html: feed.description}}
+                                    dangerouslySetInnerHTML={{
+                                        __html: feed.description.replace(
+                                            /<img(.*?)src="(.*?)"(.*?)>/g,
+                                            (match, p1, p2, p3) => {
+                                                // Replace the unwanted part in the src attribute
+                                                const newSrc = p2.replace(/=s\d+(-c-fcrop\d+=\d+,\w+)?-nd-v\d+(-rwa)?/, '');
+                                                // Add style="width: 100%" to the img tag
+                                                return `<img${p1}src="${newSrc}" style="width: 100%"${p3}>`;
+                                            }
+                                        ),
+                                    }}
                                 />
                                 <Typography color="textSecondary" gutterBottom>
                                     Published Date: {feed.pubDate}
