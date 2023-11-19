@@ -1,3 +1,5 @@
+[![Java CI with Gradle](https://github.com/hogimn/FeedSubscriber/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/hogimn/FeedSubscriber/actions/workflows/gradle.yml)
+
 # Feed Subscriber
 
 ## Overview
