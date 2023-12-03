@@ -1,0 +1,40 @@
+package feedsubscriber.auth.service;
+
+import feedsubscriber.auth.entity.Role;
+import feedsubscriber.auth.repository.UserRepository;
+import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
+
+/**
+ * User service, used to obtain user information during Form authentication.
+ *
+ * @author: ReLive
+ * @date: 2022/8/4 19:27
+ */
+@SuppressWarnings("JavadocDeclaration")
+@RequiredArgsConstructor
+public class JdbcUserDetailsService implements UserDetailsService {
+  private final UserRepository userRepository;
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    feedsubscriber.auth.entity.User user = userRepository.findUserByUsername(username);
+    if (ObjectUtils.isEmpty(user)) {
+      throw new UsernameNotFoundException("user is not found");
+    }
+    if (CollectionUtils.isEmpty(user.getRoleList())) {
+      throw new UsernameNotFoundException("role is not found");
+    }
+    Set<SimpleGrantedAuthority> authorities = user.getRoleList().stream().map(Role::getRoleCode)
+        .map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+    return new User(user.getUsername(), user.getPassword(), authorities);
+  }
+}

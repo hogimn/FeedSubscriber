@@ -1,0 +1,24 @@
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka
+
+server:
+  port: 9004
+
+spring:
+  application:
+    name: auth
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth2server?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: test
+    password: test
+  flyway:
+    baseline-on-migrate: true
+    baseline-description: <<Flyway Baseline>>
+    enabled: true
+    locations: classpath:db/migration
+    validate-on-migrate: true
+    fail-on-missing-locations: true

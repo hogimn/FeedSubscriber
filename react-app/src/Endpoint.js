@@ -7,7 +7,11 @@ function Endpoint() {
     const [newEndpoint, setNewEndpoint] = useState('');
 
     const fetchEndpoints = () => {
-        axios.get(`${RESTFUL_URL}/endpoints`)
+        const token = sessionStorage.getItem('id_token')
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        }
+        axios.get(`${RESTFUL_URL}/endpoints`, {headers: headers})
             .then(response => {
                 setEndpoints(response.data);
             })
@@ -17,7 +21,11 @@ function Endpoint() {
     };
 
     const addEndpoint = () => {
-        axios.post(`${RESTFUL_URL}/endpoint`, {url: newEndpoint})
+        const token = sessionStorage.getItem('id_token')
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        }
+        axios.post(`${RESTFUL_URL}/endpoint`, {url: newEndpoint}, {headers: headers})
             .then(() => {
                 fetchEndpoints();
                 setNewEndpoint('');
@@ -28,9 +36,13 @@ function Endpoint() {
     };
 
     const deleteEndpointAndRelatedRss = (url) => {
-        axios.delete(`${RESTFUL_URL}/rss_items`, {data: {url: url}})
+        const token = sessionStorage.getItem('id_token')
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        }
+        axios.delete(`${RESTFUL_URL}/rss_items`, {headers: headers, data: {url: url}})
             .then(() => {
-                axios.delete(`${RESTFUL_URL}/endpoint`, {data: {url: url}})
+                axios.delete(`${RESTFUL_URL}/endpoint`, {headers: headers, data: {url: url}})
                     .then(() => {
                         fetchEndpoints();
                     })

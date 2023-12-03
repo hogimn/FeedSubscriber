@@ -16,11 +16,65 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowed-origins: "*"
+            allow-credentials: true
+            allowed-origins: "http://localhost:3000"
             allowed-methods: "*"
             allowed-headers: "*"
+      routes:
+        - id: auth
+          uri: http://localhost:9004
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/(?<path>.*), /$\{path}
+        - id: restful
+          uri: http://localhost:9002
+          predicates:
+            - Path=/restful/**
+          filters:
+            - RewritePath=/restful/(?<path>.*), /$\{path}
+            - TokenRelay=
+  security:
+    oauth2:
+      client:
+        registration:
+          messaging-gateway-oidc:
+            provider: gateway-client-provider
+            client-id: relive-client
+            client-secret: relive-client
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:9001/login/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+            client-name: messaging-gateway-oidc
+          react-client:
+            provider: gateway-client-provider
+            client-id: react-client
+            client-secret: react-client
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:3000/authorized"
+            scope:
+              - openid
+              - profile
+            client-name: react-client
+        provider:
+          gateway-client-provider:
+            authorization-uri: http://localhost:9004/oauth2/authorize
+            token-uri: http://localhost:9004/oauth2/token
+            jwk-set-uri: http://localhost:9004/oauth2/jwks
+            user-info-uri: http://localhost:9004/userinfo
+            user-name-attribute: sub
   main:
     web-application-type: reactive
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
+    org.springframework.cloud.gateway: INFO
 
 eureka:
   client:

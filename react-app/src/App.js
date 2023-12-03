@@ -1,29 +1,10 @@
 import React from 'react';
-import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom';
-import {AppBar, Container, CssBaseline, List, ListItem, ListItemText, Toolbar, Typography} from '@mui/material';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {Container, CssBaseline} from '@mui/material';
 import Home from "./Home";
 import Endpoint from "./Endpoint";
-
-
-function Menu() {
-    return (
-        <AppBar position="static">
-            <Toolbar>
-                <Typography variant="h6">
-                    FeedSubscriber
-                </Typography>
-                <List component="nav" style={{display: 'flex'}}>
-                    <ListItem button component={Link} to="/">
-                        <ListItemText primary="Home"/>
-                    </ListItem>
-                    <ListItem button component={Link} to="/endpoint">
-                        <ListItemText primary="Endpoint"/>
-                    </ListItem>
-                </List>
-            </Toolbar>
-        </AppBar>
-    );
-}
+import Menu from "./Menu";
+import Redirect from "./Redirect";
 
 function App() {
     return (
@@ -32,8 +13,10 @@ function App() {
             <Menu/>
             <Container>
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
+                    <Route path="/home" element={<Home/>}/>
                     <Route path="/endpoint" element={<Endpoint/>}/>
+                    <Route path="/" element={<Redirect/>}/>
+                    <Route path="/authorized" element={<Redirect/>}/>
                 </Routes>
             </Container>
         </Router>

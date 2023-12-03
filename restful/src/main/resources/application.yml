@@ -12,6 +12,12 @@ spring:
     name: restful
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9004
+          jwk-set-uri: http://localhost:9004/oauth2/jwks
 
 logging:
   level:

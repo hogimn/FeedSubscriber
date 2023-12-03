@@ -12,8 +12,14 @@ function Home() {
     const [authorBackgroundColors, setAuthorBackgroundColors] = useState({});
 
     useEffect(() => {
+        const token = sessionStorage.getItem('id_token')
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        }
         axios
-            .get(`${RESTFUL_URL}/rss_items`)
+            .get(`${RESTFUL_URL}/rss_items`, {
+                headers: headers
+            })
             .then((response) => {
                 setRssFeeds(response.data);
             })
