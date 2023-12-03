@@ -32,12 +32,28 @@ This is a microservices-based RSS feed subscription system.
     - Serves as a shared resource for frequently utilized components, promoting code reuse and maintaining consistency
       across different modules in the Feed Subscriber project.
 
+7. **auth**:
+    - Handles OAuth2 authentication for secure user access to Feed Subscriber services.
+    - Centralizes authentication logic for consistent and maintainable security across the system.
+    - Built upon inspiration and learnings from the belows.
+    - https://dev.to/relive27/spring-cloud-gateway-combined-with-the-security-practice-of-oauth20-protocol-1m3b
+    - https://github.com/ReLive27/spring-security-oauth2-sample/tree/main/gateway-oauth2-login
+    - https://github.com/lspil/full_stack_oauth2
+
+## Database
+
+MySQL is used for auth module and MongoDB for other modules.
+
+### Login
+
+![login](./images/login.png)
+
 ### Home
 
 ![home](./images/home.png)
 
-
 ### Endpoint Setting
+
 ![endpoint](./images/endpoint.png)
 
 ## Build
@@ -60,6 +76,10 @@ This is a microservices-based RSS feed subscription system.
 
    ```bash
    java -jar .\restful\build\libs\restful-1.0.0.jar
+   ```
+
+   ```bash
+   java -jar .\auth\build\libs\auth-1.0.0.jar
    ```
 
    ```bash
