@@ -1,10 +1,10 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {Container, CssBaseline} from '@mui/material';
-import Home from "./Home";
-import Endpoint from "./Endpoint";
-import Menu from "./Menu";
-import Redirect from "./Redirect";
+import Home from "./components/pages/home/Home";
+import Endpoint from "./components/pages/endpoint/Endpoint";
+import Menu from "./components/common/Menu";
+import Redirect from "./components/pages/login/Redirect";
 
 function App() {
     return (

@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import {AUTH_URL} from './Constant';
+import {AUTH_URL} from '../../../utils/Constant';
 import axios from 'axios';
 
 const Redirect = () => {

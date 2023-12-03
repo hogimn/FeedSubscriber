@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {RESTFUL_URL} from './Constant';
+import {RESTFUL_URL} from '../../../utils/Constant';
 
 function Endpoint() {
     const [endpoints, setEndpoints] = useState([]);
