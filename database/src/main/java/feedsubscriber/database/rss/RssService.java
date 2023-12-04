@@ -25,18 +25,19 @@ public class RssService {
    *
    * @return List of RssItemDto objects representing RSS feed items sorted by publication date.
    */
-  public List<RssItemDto> findAllAndSortByPubDateDesc() {
+  public List<RssItemDto> findByUsernameAndSortByPubDateDesc(String username) {
     SimpleDateFormat inputDateFormat = new SimpleDateFormat(
             "EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
 
-    List<RssItemDto> rssList = new ArrayList<>(rssRepository.findAll()
+    List<RssItemDto> rssList = new ArrayList<>(rssRepository.findByUsername(username)
             .stream()
             .map(r -> new RssItemDto(
-                    r.getTitle(),
-                    r.getDescription(),
-                    r.getPubDate(),
-                    r.getLink(),
-                    r.getAuthor()))
+                r.getTitle(),
+                r.getDescription(),
+                r.getPubDate(),
+                r.getLink(),
+                r.getAuthor(),
+                r.getUsername()))
             .toList());
 
     rssList.sort((r1, r2) -> {

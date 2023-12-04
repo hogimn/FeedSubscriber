@@ -2,6 +2,7 @@ package feedsubscriber.collector.jobs;
 
 import feedsubscriber.common.serialization.Rss;
 import feedsubscriber.common.utils.WebUtils;
+import feedsubscriber.database.endpoint.Endpoint;
 import feedsubscriber.database.endpoint.EndpointService;
 import feedsubscriber.database.rss.RssItem;
 import feedsubscriber.database.rss.RssService;
@@ -37,15 +38,15 @@ public class CollectorJob implements Job {
   public void execute(JobExecutionContext context) {
     logger.info("CollectorJob started");
 
-    List<String> urls = endpointService
-            .findAllUrls();
+    List<Endpoint> endpoints = endpointService
+            .findAll();
 
-    urls.forEach(url -> {
-      logger.info("Processing URL: {}", url);
+    endpoints.forEach(endpoint -> {
+      logger.info("Processing URL: {}", endpoint.getUrl());
 
       Rss rssFeeds = WebUtils.makeGetRequestList(
               restTemplate,
-              url,
+              endpoint.getUrl(),
               Rss.class);
 
       List<RssItem> rssItems = rssFeeds
@@ -53,8 +54,8 @@ public class CollectorJob implements Job {
               .getItem()
               .stream()
               .map(item -> {
-                RssItem rssItem = new RssItem(item);
-                rssItem.setEndpoint(endpointService.findByUrl(url));
+                RssItem rssItem = new RssItem(item, endpoint.getUsername());
+                rssItem.setEndpoint(endpoint);
                 return rssItem;
               })
               .toList();

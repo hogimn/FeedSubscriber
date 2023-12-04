@@ -20,4 +20,6 @@ public class Endpoint {
   private ObjectId id;
   @NonNull
   String url;
+  @NonNull
+  String username;
 }

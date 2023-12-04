@@ -31,8 +31,8 @@ public class EndpointService {
    *
    * @return List of EndpointDto objects representing all endpoints.
    */
-  public List<EndpointDto> findAll() {
-    return endpointRepository.findAll()
+  public List<EndpointDto> findByUsername(String username) {
+    return endpointRepository.findByUsername(username)
             .stream()
             .map(endpoint -> new EndpointDto(endpoint.getUrl()))
             .toList();
@@ -43,10 +43,9 @@ public class EndpointService {
    *
    * @return List of URLs.
    */
-  public List<String> findAllUrls() {
+  public List<Endpoint> findAll() {
     return endpointRepository.findAll()
             .stream()
-            .map(Endpoint::getUrl)
             .toList();
   }
 

@@ -37,21 +37,24 @@ class RestfulServiceTest {
   @Test
   void testGetRssItems() {
     RssItemDto rssItem1 = new RssItemDto(
-            "Title 1",
-            "Description 1",
-            "01 Jan 2022",
-            "https://example.com/1",
-            "Author 1");
+        "Title 1",
+        "Description 1",
+        "01 Jan 2022",
+        "https://example.com/1",
+        "Author 1",
+        "user1");
     RssItemDto rssItem2 = new RssItemDto(
-            "Title 2",
-            "Description 2",
-            "02 Jan 2022",
-            "https://example.com/2",
-            "Author 2");
+        "Title 2",
+        "Description 2",
+        "02 Jan 2022",
+        "https://example.com/2",
+        "Author 2",
+        "user1");
 
-    when(rssService.findAllAndSortByPubDateDesc()).thenReturn(Arrays.asList(rssItem1, rssItem2));
+    when(rssService.findByUsernameAndSortByPubDateDesc("user1"))
+        .thenReturn(Arrays.asList(rssItem1, rssItem2));
 
-    List<RssItemDto> result = restfulService.getRssItems();
+    List<RssItemDto> result = restfulService.getRssItems("user1");
 
     assertEquals(2, result.size());
     assertEquals("Title 1", result.get(0).getTitle());
@@ -63,9 +66,9 @@ class RestfulServiceTest {
     EndpointDto endpoint1 = new EndpointDto("https://example.com/api1");
     EndpointDto endpoint2 = new EndpointDto("https://example.com/api2");
 
-    when(endpointService.findAll()).thenReturn(Arrays.asList(endpoint1, endpoint2));
+    when(endpointService.findByUsername("user1")).thenReturn(Arrays.asList(endpoint1, endpoint2));
 
-    List<EndpointDto> result = restfulService.getEndpoints();
+    List<EndpointDto> result = restfulService.getEndpoints("user1");
 
     assertEquals(2, result.size());
     assertEquals("https://example.com/api1", result.get(0).getUrl());
@@ -74,7 +77,7 @@ class RestfulServiceTest {
 
   @Test
   void testSaveEndpoint() {
-    Endpoint endpoint = new Endpoint("https://example.com/api");
+    Endpoint endpoint = new Endpoint("https://example.com/api", "user1");
 
     restfulService.saveEndpoint(endpoint);
 
@@ -83,7 +86,7 @@ class RestfulServiceTest {
 
   @Test
   void testDeleteEndpoint() {
-    Endpoint endpoint = new Endpoint("https://example.com/api");
+    Endpoint endpoint = new Endpoint("https://example.com/api", "user1");
 
     restfulService.deleteEndpoint(endpoint);
 

@@ -1,5 +1,6 @@
 package feedsubscriber.database.endpoint;
 
+import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -7,6 +8,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface EndpointRepository extends MongoRepository<Endpoint, String> {
   Endpoint findByUrl(String url);
+
+  List<Endpoint> findByUsername(String username);
 
   void deleteByUrl(String url);
 }

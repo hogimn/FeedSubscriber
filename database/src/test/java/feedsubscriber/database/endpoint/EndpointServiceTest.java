@@ -31,19 +31,21 @@ class EndpointServiceTest {
   void testFindAllUrls() {
     when(endpointRepository.findAll())
             .thenReturn(Arrays.asList(
-                    new Endpoint("https://example.com/api1"),
-                    new Endpoint("https://example.com/api2")));
+                    new Endpoint("https://example.com/api1", "user1"),
+                    new Endpoint("https://example.com/api2", "user1")));
 
-    List<String> urls = endpointService.findAllUrls();
+    List<Endpoint> endpoints = endpointService.findAll();
 
-    assertEquals(2, urls.size());
-    assertEquals(Arrays.asList("https://example.com/api1", "https://example.com/api2"), urls);
+    assertEquals(2, endpoints.size());
+    assertEquals(
+        Arrays.asList("https://example.com/api1", "https://example.com/api2"),
+        Arrays.asList(endpoints.get(0).getUrl(), endpoints.get(1).getUrl()));
     verify(endpointRepository, times(1)).findAll();
   }
 
   @Test
   void testSaveEndpoint() {
-    Endpoint endpointToSave = new Endpoint("https://example.com/api");
+    Endpoint endpointToSave = new Endpoint("https://example.com/api", "user1");
 
     endpointService.saveEndpoint(endpointToSave);
 
@@ -52,7 +54,7 @@ class EndpointServiceTest {
 
   @Test
   void testDelete() {
-    Endpoint endpointToDelete = new Endpoint("https://example.com/api");
+    Endpoint endpointToDelete = new Endpoint("https://example.com/api", "user1");
 
     endpointService.delete(endpointToDelete);
 
@@ -68,8 +70,8 @@ class EndpointServiceTest {
   @Test
   void testDeleteAllWithList() {
     List<Endpoint> endpointsToDelete = Arrays.asList(
-            new Endpoint("https://example.com/api1"),
-            new Endpoint("https://example.com/api2"));
+            new Endpoint("https://example.com/api1", "user1"),
+            new Endpoint("https://example.com/api2", "user1"));
 
     endpointService.deleteAll(endpointsToDelete);
 
@@ -77,13 +79,13 @@ class EndpointServiceTest {
   }
 
   @Test
-  void testFindAll() {
+  void testFindByUsername() {
     when(endpointRepository.findAll())
             .thenReturn(Arrays.asList(
-                    new Endpoint("https://example.com/api1"),
-                    new Endpoint("https://example.com/api2")));
+                    new Endpoint("https://example.com/api1", "user1"),
+                    new Endpoint("https://example.com/api2", "user1")));
 
-    List<EndpointDto> endpointDtoList = endpointService.findAll();
+    List<EndpointDto> endpointDtoList = endpointService.findByUsername("user1");
 
     assertEquals(2, endpointDtoList.size());
     verify(endpointRepository, times(1)).findAll();

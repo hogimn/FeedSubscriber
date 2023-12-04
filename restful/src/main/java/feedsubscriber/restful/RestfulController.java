@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,9 +46,18 @@ public class RestfulController {
    * @return List of RssItemDto representing RSS feed items.
    */
   @GetMapping("/rss_items")
-  public List<RssItemDto> findRssItems() {
+  public List<RssItemDto> findRssItems(Authentication authentication) throws Exception {
     logger.info("Fetching RSS items");
-    List<RssItemDto> rssItems = restService.getRssItems();
+    String username = "";
+
+    if (authentication != null && authentication.isAuthenticated()) {
+      username = authentication.getName();
+      logger.info("Authenticated user: {}", username);
+    } else {
+      throw new Exception("User not authenticated");
+    }
+
+    List<RssItemDto> rssItems = restService.getRssItems(username);
     logger.info("Fetched {} RSS items", rssItems.size());
     return rssItems;
   }
@@ -58,9 +68,18 @@ public class RestfulController {
    * @return List of EndpointDto representing endpoints.
    */
   @GetMapping("/endpoints")
-  public List<EndpointDto> findEndpoints() {
+  public List<EndpointDto> findEndpoints(Authentication authentication) throws Exception {
     logger.info("Fetching endpoints");
-    List<EndpointDto> endpoints = restService.getEndpoints();
+    String username = "";
+
+    if (authentication != null && authentication.isAuthenticated()) {
+      username = authentication.getName();
+      logger.info("Authenticated user: {}", username);
+    } else {
+      throw new Exception("User not authenticated");
+    }
+
+    List<EndpointDto> endpoints = restService.getEndpoints(username);
     logger.info("Fetched {} endpoints", endpoints.size());
     return endpoints;
   }
@@ -71,13 +90,25 @@ public class RestfulController {
    * @param endpointDto The DTO representing the new endpoint.
    */
   @PostMapping("/endpoint")
-  public void saveEndpoint(@RequestBody EndpointDto endpointDto) {
+  public void saveEndpoint(
+      @RequestBody EndpointDto endpointDto,
+      Authentication authentication
+  ) throws Exception {
     logger.info("Saving endpoint: {}", endpointDto.getUrl());
+    String username = "";
+
+    if (authentication != null && authentication.isAuthenticated()) {
+      username = authentication.getName();
+      logger.info("Authenticated user: {}", username);
+    } else {
+      throw new Exception("User not authenticated");
+    }
+
     if (endpointDto.getUrl().isEmpty()) {
       logger.info("Url is empty");
       return;
     }
-    restService.saveEndpoint(new Endpoint(endpointDto.getUrl()));
+    restService.saveEndpoint(new Endpoint(endpointDto.getUrl(), username));
     logger.info("Endpoint saved: {}", endpointDto.getUrl());
   }
 
@@ -87,9 +118,21 @@ public class RestfulController {
    * @param endpointDto The DTO representing the endpoint to be deleted.
    */
   @DeleteMapping("/endpoint")
-  public void deleteEndpoint(@RequestBody EndpointDto endpointDto) {
+  public void deleteEndpoint(
+      @RequestBody EndpointDto endpointDto,
+      Authentication authentication
+  ) throws Exception {
+    String username = "";
+
+    if (authentication != null && authentication.isAuthenticated()) {
+      username = authentication.getName();
+      logger.info("Authenticated user: {}", username);
+    } else {
+      throw new Exception("User not authenticated");
+    }
+
     logger.info("Deleting endpoint: {}", endpointDto.getUrl());
-    restService.deleteEndpoint(new Endpoint(endpointDto.getUrl()));
+    restService.deleteEndpoint(new Endpoint(endpointDto.getUrl(), username));
     logger.info("Endpoint deleted: {}", endpointDto.getUrl());
   }
 

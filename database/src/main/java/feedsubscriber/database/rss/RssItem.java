@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -31,6 +32,8 @@ public class RssItem {
   String link;
   @NonNull
   String author;
+  @NonNull
+  String username;
 
   @DBRef
   @Field("endpoint")
@@ -41,11 +44,12 @@ public class RssItem {
    *
    * @param item The external Item object to extract information from.
    */
-  public RssItem(Item item) {
+  public RssItem(Item item, @NotNull String username) {
     title = item.getTitle();
     description = item.getDescription();
     pubDate = item.getPubDate();
     link = item.getLink();
     author = item.getAuthor();
+    this.username = username;
   }
 }

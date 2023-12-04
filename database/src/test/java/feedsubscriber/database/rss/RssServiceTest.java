@@ -28,24 +28,26 @@ class RssServiceTest {
   }
 
   @Test
-  void testFindAllAndSortByPubDateDesc() {
+  void testFindByUsernameAndSortByPubDateDesc() {
     RssItem rssItem1 = new RssItem(
-            "Title 1",
-            "Description 1",
-            "Thu, 01 Jan 2022 12:00:00 GMT",
-            "https://example.com/1",
-            "Author 1");
+        "Title 1",
+        "Description 1",
+        "Thu, 01 Jan 2022 12:00:00 GMT",
+        "https://example.com/1",
+        "Author 1",
+        "user1");
     RssItem rssItem2 = new RssItem(
-            "Title 2",
-            "Description 2",
-            "Thu, 02 Jan 2022 12:00:00 GMT",
-            "https://example.com/2",
-            "Author 2");
+        "Title 2",
+        "Description 2",
+        "Thu, 02 Jan 2022 12:00:00 GMT",
+        "https://example.com/2",
+        "Author 2",
+        "user1");
 
     List<RssItem> rssItems = Arrays.asList(rssItem1, rssItem2);
     when(rssRepository.findAll()).thenReturn(rssItems);
 
-    List<RssItemDto> result = rssService.findAllAndSortByPubDateDesc();
+    List<RssItemDto> result = rssService.findByUsernameAndSortByPubDateDesc("user1");
 
     assertEquals(2, result.size());
     assertEquals("Title 2", result.get(0).getTitle());
@@ -55,11 +57,13 @@ class RssServiceTest {
   @Test
   void testFindByLink() {
     String link = "https://example.com/1";
-    RssItem rssItem = new RssItem("Title 1",
-            "Description 1",
-            "Thu, 01 Jan 2022 12:00:00 GMT",
-            link,
-            "Author 1");
+    RssItem rssItem = new RssItem(
+        "Title 1",
+        "Description 1",
+        "Thu, 01 Jan 2022 12:00:00 GMT",
+        link,
+        "Author 1",
+        "user1");
 
     when(rssRepository.findByLink(link)).thenReturn(rssItem);
 
@@ -70,17 +74,20 @@ class RssServiceTest {
 
   @Test
   void testSaveAll() {
-    RssItem rssItem1 = new RssItem("Title 1",
-            "Description 1",
-            "Thu, 01 Jan 2022 12:00:00 GMT",
-            "https://example.com/1",
-            "Author 1");
+    RssItem rssItem1 = new RssItem(
+        "Title 1",
+        "Description 1",
+        "Thu, 01 Jan 2022 12:00:00 GMT",
+        "https://example.com/1",
+        "Author 1",
+        "user1");
     RssItem rssItem2 = new RssItem(
-            "Title 2",
-            "Description 2",
-            "Thu, 02 Jan 2022 12:00:00 GMT",
-            "https://example.com/2",
-            "Author 2");
+        "Title 2",
+        "Description 2",
+        "Thu, 02 Jan 2022 12:00:00 GMT",
+        "https://example.com/2",
+        "Author 2",
+        "user1");
 
     List<RssItem> rssItems = Arrays.asList(rssItem1, rssItem2);
 

@@ -16,4 +16,5 @@ public class RssItemDto {
   String pubDate;
   String link;
   String author;
+  String username;
 }

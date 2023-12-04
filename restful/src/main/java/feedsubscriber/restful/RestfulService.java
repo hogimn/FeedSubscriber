@@ -21,12 +21,12 @@ public class RestfulService {
   @Autowired
   EndpointService endpointService;
 
-  public List<RssItemDto> getRssItems() {
-    return rssService.findAllAndSortByPubDateDesc();
+  public List<RssItemDto> getRssItems(String username) {
+    return rssService.findByUsernameAndSortByPubDateDesc(username);
   }
 
-  public List<EndpointDto> getEndpoints() {
-    return endpointService.findAll();
+  public List<EndpointDto> getEndpoints(String username) {
+    return endpointService.findByUsername(username);
   }
 
   public void saveEndpoint(Endpoint endpoint) {

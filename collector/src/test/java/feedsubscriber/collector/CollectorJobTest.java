@@ -10,6 +10,7 @@ import feedsubscriber.collector.jobs.CollectorJob;
 import feedsubscriber.common.serialization.Channel;
 import feedsubscriber.common.serialization.Item;
 import feedsubscriber.common.serialization.Rss;
+import feedsubscriber.database.endpoint.Endpoint;
 import feedsubscriber.database.endpoint.EndpointService;
 import feedsubscriber.database.rss.RssItem;
 import feedsubscriber.database.rss.RssService;
@@ -61,7 +62,7 @@ class CollectorJobTest {
 
     collectorJob.execute(jobExecutionContext);
 
-    verify(endpointService, times(1)).findAllUrls();
+    verify(endpointService, times(1)).findAll();
     verify(restTemplate, times(1))
             .exchange(eq(FEED_URL), eq(HttpMethod.GET), eq(null), eq(Rss.class));
 
@@ -74,8 +75,8 @@ class CollectorJobTest {
   }
 
   private void setupMocksForExecute() {
-    List<String> urls = List.of(FEED_URL);
-    when(endpointService.findAllUrls()).thenReturn(urls);
+    List<Endpoint> urls = List.of(new Endpoint(FEED_URL, "user1"));
+    when(endpointService.findAll()).thenReturn(urls);
 
     RssItem existingRssItem = new RssItem();
     existingRssItem.setLink(EXISTING_ITEM_LINK);
