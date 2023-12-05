@@ -34,6 +34,13 @@ spring:
           filters:
             - RewritePath=/restful/(?<path>.*), /$\{path}
             - TokenRelay=
+        - id: logout
+          uri: http://localhost:9004 # Authorization Server URL
+          predicates:
+            - Path=/logout
+          filters:
+            - StripPrefix=0
+            - RewritePath=/logout/(?<path>.*), /$\{path}
   security:
     oauth2:
       client:

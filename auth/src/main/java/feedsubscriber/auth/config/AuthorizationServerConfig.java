@@ -34,6 +34,7 @@ import org.springframework.security.oauth2.server.authorization.settings.OAuth2T
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
@@ -76,6 +77,12 @@ public class AuthorizationServerConfig {
             exceptions.authenticationEntryPoint(
                 new LoginUrlAuthenticationEntryPoint("/login")))
         .apply(authorizationServerConfigurer)
+        .and()
+        .logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/login")
+        .deleteCookies("JSESSIONID")
+        .invalidateHttpSession(true)
         .and()
         .build();
   }

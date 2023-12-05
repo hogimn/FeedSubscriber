@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * Default Spring Web Security Configuration.
@@ -51,7 +52,12 @@ public class DefaultSecurityConfig {
           var successHandler = new SavedUserAuthenticationSuccessHandler();
           successHandler.setOauth2UserHandler(userHandler);
           oauth2login.successHandler(successHandler);
-        });
+        })
+        .logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/login")
+        .deleteCookies("JSESSIONID")
+        .invalidateHttpSession(true);
     return http.build();
   }
 

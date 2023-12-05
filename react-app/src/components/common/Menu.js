@@ -1,8 +1,13 @@
 import React from 'react';
-import {AppBar, List, ListItem, ListItemText, Toolbar, Typography} from '@mui/material';
+import {AppBar, Button, List, ListItem, ListItemText, Toolbar, Typography} from '@mui/material';
 import {Link} from 'react-router-dom';
 
 function Menu() {
+    const handleLogout = () => {
+        sessionStorage.clear()
+        window.location.href = 'http://localhost:9001/auth/logout';
+    };
+
     return (
         <AppBar position="static">
             <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -17,6 +22,9 @@ function Menu() {
                         </ListItem>
                     </List>
                 </div>
+                <Button color="inherit" onClick={handleLogout}>
+                    Logout
+                </Button>
             </Toolbar>
         </AppBar>
     );
