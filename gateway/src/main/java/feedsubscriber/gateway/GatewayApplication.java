@@ -1,10 +1,8 @@
 package feedsubscriber.gateway;
 
 import jakarta.annotation.PostConstruct;
-import java.lang.invoke.MethodHandles;
 import java.util.Objects;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,10 +12,9 @@ import org.springframework.cloud.gateway.config.GatewayProperties;
  * Spring Boot application for the gateway service.
  */
 @SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection"})
+@Slf4j
 @SpringBootApplication
 public class GatewayApplication {
-  private static final Logger logger =
-          LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   @Autowired
   private GatewayProperties props;
@@ -29,6 +26,6 @@ public class GatewayApplication {
 
   @PostConstruct
   public void init() {
-    logger.info(Objects.toString(props));
+    log.info(Objects.toString(props));
   }
 }

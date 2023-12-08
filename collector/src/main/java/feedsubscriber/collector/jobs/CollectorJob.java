@@ -8,10 +8,9 @@ import feedsubscriber.database.rss.RssItem;
 import feedsubscriber.database.rss.RssService;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Component
+@Slf4j
 public class CollectorJob implements Job {
   @Autowired
   EndpointService endpointService;
@@ -31,18 +31,15 @@ public class CollectorJob implements Job {
   @Autowired
   RestTemplate restTemplate;
 
-  private static final Logger logger =
-          LoggerFactory.getLogger(CollectorJob.class);
-
   @Override
   public void execute(JobExecutionContext context) {
-    logger.info("CollectorJob started");
+    log.info("CollectorJob started");
 
     List<Endpoint> endpoints = endpointService
             .findAll();
 
     endpoints.forEach(endpoint -> {
-      logger.info("Processing URL: {}", endpoint.getUrl());
+      log.info("Processing URL: {}", endpoint.getUrl());
 
       Rss rssFeeds = WebUtils.makeGetRequestList(
               restTemplate,
@@ -70,6 +67,6 @@ public class CollectorJob implements Job {
       rssService.saveAll(notSavedRssItems);
     });
 
-    logger.info("CollectorJob finished");
+    log.info("CollectorJob finished");
   }
 }
