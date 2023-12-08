@@ -32,6 +32,7 @@ class CollectorJobTest {
   private static final String FEED_URL = "https://example.com/feed";
   private static final String EXISTING_ITEM_LINK = "https://example.com/item1";
   private static final String NEW_ITEM_LINK = "https://example.com/item2";
+  private static final String USERNAME = "user1";
 
   @Mock
   private EndpointService endpointService;
@@ -66,7 +67,7 @@ class CollectorJobTest {
     verify(restTemplate, times(1))
             .exchange(eq(FEED_URL), eq(HttpMethod.GET), eq(null), eq(Rss.class));
 
-    verify(rssService, times(1)).findByLink(NEW_ITEM_LINK);
+    verify(rssService, times(1)).findByLinkAndUsername(NEW_ITEM_LINK, USERNAME);
     verify(rssService, times(1)).saveAll(rssItemListCaptor.capture());
 
     List<RssItem> capturedItemList = rssItemListCaptor.getValue();
@@ -75,12 +76,13 @@ class CollectorJobTest {
   }
 
   private void setupMocksForExecute() {
-    List<Endpoint> urls = List.of(new Endpoint(FEED_URL, "user1"));
+    List<Endpoint> urls = List.of(new Endpoint(FEED_URL, USERNAME));
     when(endpointService.findAll()).thenReturn(urls);
 
     RssItem existingRssItem = new RssItem();
     existingRssItem.setLink(EXISTING_ITEM_LINK);
-    when(rssService.findByLink(existingRssItem.getLink())).thenReturn(existingRssItem);
+    when(rssService.findByLinkAndUsername(existingRssItem.getLink(), USERNAME))
+        .thenReturn(existingRssItem);
 
     Item newItem = new Item();
     newItem.setLink(NEW_ITEM_LINK);
@@ -92,5 +94,7 @@ class CollectorJobTest {
     ResponseEntity<Rss> mockResponseEntity = ResponseEntity.ok(rss);
     when(restTemplate.exchange(eq(FEED_URL), eq(HttpMethod.GET), eq(null), eq(Rss.class)))
             .thenReturn(mockResponseEntity);
+
+    when(endpointService.findAllSubscribedUsersByUrl(FEED_URL)).thenReturn(List.of("user1"));
   }
 }

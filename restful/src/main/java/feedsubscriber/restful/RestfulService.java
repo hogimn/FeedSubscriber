@@ -37,8 +37,8 @@ public class RestfulService {
     endpointService.delete(endpoint);
   }
 
-  public void deleteAllRssByEndpoint(String url) {
-    Endpoint endpoint = endpointService.findByUrl(url);
+  public void deleteAllRssByEndpointAndUsername(String url, String username) {
+    Endpoint endpoint = endpointService.findByUrlAndUsername(url, username);
     rssService.deleteAllByEndpoint(endpoint);
   }
 }

@@ -65,9 +65,9 @@ class RssServiceTest {
         "Author 1",
         "user1");
 
-    when(rssRepository.findByLink(link)).thenReturn(rssItem);
+    when(rssRepository.findByLinkAndUsername(link, "user1")).thenReturn(rssItem);
 
-    RssItem result = rssService.findByLink(link);
+    RssItem result = rssService.findByLinkAndUsername(link, "user1");
 
     assertEquals(rssItem, result);
   }

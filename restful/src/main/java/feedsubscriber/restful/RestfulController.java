@@ -139,9 +139,24 @@ public class RestfulController {
    * @param endpointDto The DTO representing the endpoint.
    */
   @DeleteMapping("/rss_items")
-  public void deleteAllRssByEndpoint(@RequestBody EndpointDto endpointDto) {
-    log.info("Deleting all RSS items for endpoint: {}", endpointDto.getUrl());
-    restService.deleteAllRssByEndpoint(endpointDto.getUrl());
-    log.info("All RSS items deleted for endpoint: {}", endpointDto.getUrl());
+  public void deleteAllRssByEndpoint(
+      @RequestBody EndpointDto endpointDto, Authentication authentication
+  ) throws Exception {
+    String username = "";
+
+    if (authentication != null && authentication.isAuthenticated()) {
+      username = authentication.getName();
+      log.info("Authenticated user: {}", username);
+    } else {
+      throw new Exception("User not authenticated");
+    }
+
+    log.info("Deleting all RSS items for endpoint and username: {}, {}",
+        endpointDto.getUrl(), username);
+
+    restService.deleteAllRssByEndpointAndUsername(endpointDto.getUrl(), username);
+
+    log.info("All RSS items deleted for endpoint and username: {} {}",
+        endpointDto.getUrl(), username);
   }
 }

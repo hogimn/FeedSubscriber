@@ -15,13 +15,13 @@ public class EndpointService {
   private EndpointRepository endpointRepository;
 
   /**
-   * Retrieves the {@link Endpoint} associated with the specified URL.
+   * Retrieves the {@link Endpoint}s associated with the specified URL.
    *
    * @param url The URL of the endpoint to retrieve.
-   * @return An {@link Endpoint} representing the endpoint with the given URL,
+   * @return {@link Endpoint}s representing the endpoint with the given URL,
    *         or null if no endpoint is found.
    */
-  public Endpoint findByUrl(String url) {
+  public List<Endpoint> findByUrl(String url) {
     return endpointRepository
             .findByUrl(url);
   }
@@ -54,7 +54,7 @@ public class EndpointService {
   }
 
   public void delete(Endpoint endpoint) {
-    endpointRepository.deleteByUrl(endpoint.getUrl());
+    endpointRepository.deleteByUrlAndUsername(endpoint.getUrl(), endpoint.getUsername());
   }
 
   public void deleteAll() {
@@ -63,5 +63,22 @@ public class EndpointService {
 
   public void deleteAll(List<Endpoint> endpoint) {
     endpointRepository.deleteAll(endpoint);
+  }
+
+  /**
+   * Retrieves the usernames of all users subscribed to the endpoint with the specified URL.
+   *
+   * @param url The URL of the endpoint for which subscribed users are to be retrieved.
+   * @return List of usernames representing users subscribed to the specified endpoint.
+   */
+  public List<String> findAllSubscribedUsersByUrl(String url) {
+    return findByUrl(url)
+        .stream()
+        .map(Endpoint::getUsername)
+        .toList();
+  }
+
+  public Endpoint findByUrlAndUsername(String url, String username) {
+    return endpointRepository.findByUrlAndUsername(url, username);
   }
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 /**
  * Service class for managing RSS feed items.
  */
-@SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "UnusedReturnValue"})
+@SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "UnusedReturnValue", "unused"})
 @Service
 public class RssService {
   @Autowired
@@ -55,8 +55,12 @@ public class RssService {
     return rssList;
   }
 
-  public RssItem findByLink(String link) {
+  public List<RssItem> findByLink(String link) {
     return rssRepository.findByLink(link);
+  }
+
+  public RssItem findByLinkAndUsername(String link, String username) {
+    return rssRepository.findByLinkAndUsername(link, username);
   }
 
   public void saveAll(List<RssItem> rss) {
