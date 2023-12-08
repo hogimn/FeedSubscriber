@@ -55,7 +55,7 @@ public class DefaultSecurityConfig {
         })
         .logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutSuccessUrl("/login")
+        .logoutSuccessUrl("http://localhost:3000/")
         .deleteCookies("JSESSIONID")
         .invalidateHttpSession(true);
     return http.build();
