@@ -23,5 +23,11 @@ jobs:
         distribution: 'temurin'
     - name: Give executable permission to gradlew
       run: chmod +x ./gradlew  
+    - name: Unit test
+      run: ./gradlew test
+    - name: Checkstyle main
+      run: ./gradlew checkstyleMain
+    - name: Checkstyle test
+      run: ./gradlew checkstyleTest
     - name: Build with Gradle
       run: ./gradlew build

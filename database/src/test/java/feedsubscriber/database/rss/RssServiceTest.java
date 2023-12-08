@@ -45,7 +45,7 @@ class RssServiceTest {
         "user1");
 
     List<RssItem> rssItems = Arrays.asList(rssItem1, rssItem2);
-    when(rssRepository.findAll()).thenReturn(rssItems);
+    when(rssRepository.findByUsername("user1")).thenReturn(rssItems);
 
     List<RssItemDto> result = rssService.findByUsernameAndSortByPubDateDesc("user1");
 

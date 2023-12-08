@@ -80,7 +80,7 @@ class EndpointServiceTest {
 
   @Test
   void testFindByUsername() {
-    when(endpointRepository.findAll())
+    when(endpointRepository.findByUsername("user1"))
             .thenReturn(Arrays.asList(
                     new Endpoint("https://example.com/api1", "user1"),
                     new Endpoint("https://example.com/api2", "user1")));
@@ -88,6 +88,6 @@ class EndpointServiceTest {
     List<EndpointDto> endpointDtoList = endpointService.findByUsername("user1");
 
     assertEquals(2, endpointDtoList.size());
-    verify(endpointRepository, times(1)).findAll();
+    verify(endpointRepository, times(1)).findByUsername("user1");
   }
 }
