@@ -52,7 +52,6 @@ subprojects {
         }
 
         withType<Test>().configureEach {
-            ignoreFailures = true
             useJUnitPlatform()
             jvmArgs =
                 listOf(
