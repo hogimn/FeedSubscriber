@@ -1,6 +1,8 @@
 server:
-  port: 9000
+  port: ${common.eureka.port}
 spring:
+  config:
+    import: file:./common/src/main/resources/application-common.yml
   application:
     name: eureka
 

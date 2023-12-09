@@ -7,6 +7,7 @@ import feedsubscriber.auth.repository.JdbcClientRegistrationRepository;
 import feedsubscriber.auth.repository.UserRepository;
 import feedsubscriber.auth.service.AuthorityMappingAuth2UserService;
 import feedsubscriber.auth.service.JdbcUserDetailsService;
+import feedsubscriber.common.config.CommonProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,9 @@ public class DefaultSecurityConfig {
   @Autowired
   UserRepositoryAuth2UserHandler userHandler;
 
+  @Autowired
+  CommonProperties commonProperties;
+
   @Bean
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(authorizeRequests ->
@@ -55,7 +59,7 @@ public class DefaultSecurityConfig {
         })
         .logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutSuccessUrl("http://localhost:3000/")
+        .logoutSuccessUrl(commonProperties.getFrontend().getBaseUrl())
         .deleteCookies("JSESSIONID")
         .invalidateHttpSession(true);
     return http.build();

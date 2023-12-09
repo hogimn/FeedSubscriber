@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: ReLive
  * @date: 2022/6/23 2:02 下午
  */
-@SuppressWarnings("JavadocDeclaration")
-@SpringBootApplication
+@SuppressWarnings({"JavadocDeclaration", "SpellCheckingInspection"})
+@SpringBootApplication(scanBasePackages = {"feedsubscriber.auth", "feedsubscriber.common"})
 public class AuthApplication {
   public static void main(String[] args) {
     SpringApplication.run(AuthApplication.class, args);

@@ -1,0 +1,20 @@
+common:
+  frontend:
+    port: 3000
+    base-url: http://localhost:${common.frontend.port}
+    authorized-url: http://localhost:${common.frontend.port}/authorized
+  eureka:
+    port: 9000
+    context-url: http://localhost:${common.eureka.port}/eureka
+  gateway:
+    port: 9001
+    base-url: http://localhost:${common.gateway.port}
+  restful:
+    port: 9002
+    base-url: http://localhost:${common.restful.port}
+  collector:
+    port: 9003
+    base-url: http://localhost:${common.collector.port}
+  auth:
+    port: 9004
+    base-url: http://localhost:${common.auth.port}

@@ -5,7 +5,9 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import feedsubscriber.auth.jose.Jwks;
+import feedsubscriber.common.config.CommonProperties;
 import java.time.Duration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -43,9 +45,12 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
  * @author ReLive
  * @date 2022/6/23 2:03 下午
  */
-@SuppressWarnings("JavadocDeclaration")
+@SuppressWarnings({"JavadocDeclaration", "SpringJavaAutowiredFieldsWarningInspection"})
 @Configuration
 public class AuthorizationServerConfig {
+  @Autowired
+  CommonProperties commonProperties;
+
   /**
    * Configures the OAuth2 authorization server security filter chain.
    *
@@ -79,7 +84,7 @@ public class AuthorizationServerConfig {
         .apply(authorizationServerConfigurer)
         .and()
         .logout()
-        .logoutSuccessUrl("http://localhost:3000/")
+        .logoutSuccessUrl(commonProperties.getFrontend().getBaseUrl())
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .deleteCookies("JSESSIONID")
         .invalidateHttpSession(true)
@@ -105,7 +110,8 @@ public class AuthorizationServerConfig {
         })
         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-        .redirectUri("http://localhost:9001/login/oauth2/code/messaging-gateway-oidc")
+        .redirectUri(commonProperties.getGateway().getBaseUrl()
+            + "/login/oauth2/code/messaging-gateway-oidc")
         .scope(OidcScopes.OPENID)
         .scope(OidcScopes.PROFILE)
         .scope(OidcScopes.EMAIL)
@@ -135,7 +141,7 @@ public class AuthorizationServerConfig {
         })
         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-        .redirectUri("http://localhost:3000/authorized")
+        .redirectUri(commonProperties.getFrontend().getAuthorizedUrl())
         .scope(OidcScopes.OPENID)
         .scope(OidcScopes.PROFILE)
         .scope(OidcScopes.EMAIL)
@@ -199,7 +205,7 @@ public class AuthorizationServerConfig {
   public AuthorizationServerSettings authorizationServerSettings() {
     return AuthorizationServerSettings
         .builder()
-        .issuer("http://localhost:9004")
+        .issuer(commonProperties.getAuth().getBaseUrl())
         .build();
   }
 

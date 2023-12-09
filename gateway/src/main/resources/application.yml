@@ -1,8 +1,10 @@
 #file: noinspection SpellCheckingInspection
 server:
-  port: 9001
+  port: ${common.gateway.port}
 
 spring:
+  config:
+    import: file:./common/src/main/resources/application-common.yml
   application:
     name: gateway
   cloud:
@@ -17,30 +19,23 @@ spring:
         cors-configurations:
           '[/**]':
             allow-credentials: true
-            allowed-origins: "http://localhost:3000"
+            allowed-origins: "${common.frontend.base-url}"
             allowed-methods: "*"
             allowed-headers: "*"
       routes:
         - id: auth
-          uri: http://localhost:9004
+          uri: "${common.auth.base-url}"
           predicates:
             - Path=/auth/**
           filters:
             - RewritePath=/auth/(?<path>.*), /$\{path}
         - id: restful
-          uri: http://localhost:9002
+          uri: "${common.restful.base-url}"
           predicates:
             - Path=/restful/**
           filters:
             - RewritePath=/restful/(?<path>.*), /$\{path}
             - TokenRelay=
-        - id: logout
-          uri: http://localhost:9004 # Authorization Server URL
-          predicates:
-            - Path=/logout
-          filters:
-            - StripPrefix=0
-            - RewritePath=/logout/(?<path>.*), /$\{path}
   security:
     oauth2:
       client:
@@ -50,7 +45,7 @@ spring:
             client-id: relive-client
             client-secret: relive-client
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:9001/login/oauth2/code/{registrationId}"
+            redirect-uri: "${common.gateway.base-url}/login/oauth2/code/{registrationId}"
             scope:
               - openid
               - profile
@@ -60,17 +55,17 @@ spring:
             client-id: react-client
             client-secret: react-client
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:3000/authorized"
+            redirect-uri: "${frontend.authorized-url}"
             scope:
               - openid
               - profile
             client-name: react-client
         provider:
           gateway-client-provider:
-            authorization-uri: http://localhost:9004/oauth2/authorize
-            token-uri: http://localhost:9004/oauth2/token
-            jwk-set-uri: http://localhost:9004/oauth2/jwks
-            user-info-uri: http://localhost:9004/userinfo
+            authorization-uri: "${common.auth.base-url}/oauth2/authorize"
+            token-uri: "${common.auth.base-url}/oauth2/token"
+            jwk-set-uri: "${common.auth.base-url}/oauth2/jwks"
+            user-info-uri: "${common.auth.base-url}/userinfo"
             user-name-attribute: sub
   main:
     web-application-type: reactive
@@ -89,4 +84,4 @@ eureka:
     register-with-eureka: false
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://localhost:9000/eureka
+      defaultZone: "${common.eureka.context-url}"
