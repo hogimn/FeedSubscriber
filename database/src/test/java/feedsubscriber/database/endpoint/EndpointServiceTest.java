@@ -30,9 +30,9 @@ class EndpointServiceTest {
   @Test
   void testFindAllUrls() {
     when(endpointRepository.findAll())
-            .thenReturn(Arrays.asList(
-                    new Endpoint("https://example.com/api1", "user1"),
-                    new Endpoint("https://example.com/api2", "user1")));
+        .thenReturn(Arrays.asList(
+            new Endpoint("https://example.com/api1", "user1"),
+            new Endpoint("https://example.com/api2", "user1")));
 
     List<Endpoint> endpoints = endpointService.findAll();
 
@@ -58,7 +58,8 @@ class EndpointServiceTest {
 
     endpointService.delete(endpointToDelete);
 
-    verify(endpointRepository, times(1)).deleteByUrl(endpointToDelete.getUrl());
+    verify(endpointRepository, times(1))
+        .deleteByUrlAndUsername(endpointToDelete.getUrl(), "user1");
   }
 
   @Test
@@ -70,8 +71,8 @@ class EndpointServiceTest {
   @Test
   void testDeleteAllWithList() {
     List<Endpoint> endpointsToDelete = Arrays.asList(
-            new Endpoint("https://example.com/api1", "user1"),
-            new Endpoint("https://example.com/api2", "user1"));
+        new Endpoint("https://example.com/api1", "user1"),
+        new Endpoint("https://example.com/api2", "user1"));
 
     endpointService.deleteAll(endpointsToDelete);
 
@@ -81,9 +82,9 @@ class EndpointServiceTest {
   @Test
   void testFindByUsername() {
     when(endpointRepository.findByUsername("user1"))
-            .thenReturn(Arrays.asList(
-                    new Endpoint("https://example.com/api1", "user1"),
-                    new Endpoint("https://example.com/api2", "user1")));
+        .thenReturn(Arrays.asList(
+            new Endpoint("https://example.com/api1", "user1"),
+            new Endpoint("https://example.com/api2", "user1")));
 
     List<EndpointDto> endpointDtoList = endpointService.findByUsername("user1");
 
