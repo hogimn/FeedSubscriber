@@ -1,31 +1,17 @@
 // noinspection JSValidateTypes,JSUnresolvedReference
 
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import {Button, Card, CardActions, CardContent, Grid, Typography} from '@mui/material';
-import {RESTFUL_URL} from '../../../utils/Constant';
 import AuthorFilter from './AuthorFilter';
+import RssApi from "../../api/RssApi";
 
 function Home() {
-    const [rssFeeds, setRssFeeds] = useState([]);
+    const [rssItems, setRssItems] = useState([]);
     const [selectedAuthors, setSelectedAuthors] = useState([]);
     const [authorBackgroundColors, setAuthorBackgroundColors] = useState({});
 
     useEffect(() => {
-        const token = sessionStorage.getItem('id_token')
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        }
-        axios
-            .get(`${RESTFUL_URL}/rss_items`, {
-                headers: headers
-            })
-            .then((response) => {
-                setRssFeeds(response.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching RSS feeds:', error);
-            });
+        RssApi.fetchRssItems(setRssItems)
     }, []);
 
     const getRandomSemiTransparentColor = () => {
@@ -48,13 +34,13 @@ function Home() {
 
     const filteredRssFeeds =
         selectedAuthors.length > 0
-            ? rssFeeds.filter((feed) => selectedAuthors.includes(feed.author))
-            : rssFeeds;
+            ? rssItems.filter((feed) => selectedAuthors.includes(feed.author))
+            : rssItems;
 
     return (
         <div style={{minHeight: '100vh', padding: '16px'}}>
             <AuthorFilter
-                authors={Array.from(new Set(rssFeeds.map((feed) => feed.author)))}
+                authors={Array.from(new Set(rssItems.map((feed) => feed.author)))}
                 selectedAuthors={selectedAuthors}
                 setSelectedAuthors={setSelectedAuthors}
             />
